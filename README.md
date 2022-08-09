@@ -1,3 +1,3 @@
 # technical-documentation-fcc
-Responsive Web Design Project - freeCodeCamp
+##Responsive Web Design Project - freeCodeCamp
 Happy Coding! 
