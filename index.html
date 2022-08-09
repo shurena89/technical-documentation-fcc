@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Technical Documentation</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+<body>
+	<nav id="navbar">
+		<header>C# documentation</header>
+		<ul>
+			<li><a class="nav-link" href="#Introduction">Introduction</a></li>
+			<li><a class="nav-link" href="#Arrays">Arrays</a></li>
+			<li><a class="nav-link" href="#String_Interpolation">String Interpolation</a></li>
+			<li><a class="nav-link" href="#Nullable_Reference_Types">Nullable Reference Types</a></li>
+			<li><a class="nav-link" href="#Layout_Conventions">Layout Conventions</a></li>
+		</ul>
+	</nav>
+	<main id="main-doc">
+
+		<section class="main-section" id="Introduction">
+			<header>Introduction</header>
+			<p>
+			C# (pronounced "See Sharp") is a modern, object-oriented, and type-safe programming language. C# enables developers to build many types of secure and robust applications that run in .NET. C# has its roots in the C family of languages and will be immediately familiar to C, C++, Java, and JavaScript programmers. This tour provides an overview of the major components of the language in C# 8 and earlier. If you want to explore the language through interactive examples, try the introduction to C# tutorials.
+			</p>
+			<p>
+			C# emphasizes versioning to ensure programs and libraries can evolve over time in a compatible manner. Aspects of C#'s design that were directly influenced by versioning considerations include the separate virtual and override modifiers, the rules for method overload resolution, and support for explicit interface member declarations.
+			</p>
+		</section>
+		
+		<section class="main-section" id="Arrays">
+			<header>Arrays</header>
+			<p>An array is a data structure that contains a number of variables that are accessed through computed indices. The variables contained in an array, also called the elements of the array, are all of the same type. This type is called the element type of the array.</p>
+			<p>Array types are reference types, and the declaration of an array variable simply sets aside space for a reference to an array instance. Actual array instances are created dynamically at run time using the new operator. The new operation specifies the length of the new array instance, which is then fixed for the lifetime of the instance. The indices of the elements of an array range from 0 to Length - 1. The new operator automatically initializes the elements of an array to their default value, which, for example, is zero for all numeric types and null for all reference types.</p>
+			<p>The following example creates an array of int elements, initializes the array, and prints the contents of the array.</p>
+		<code>
+		 <span style="color: #FFD700">int</span>[] a = <span style="color: #FFD700">new int</span>[10]; <br>
+<span style="color: #FFD700">for</span> (<span style="color: #FFD700">int </span>i = 0; i < a.Length; i++) <br>
+{<br>
+    a[i] = i * i;<br>
+}<br>
+<span style="color: #FFD700">for</span> (<span style="color: #FFD700">int </span> = 0; i < a.Length; i++)<br>
+{<br>
+    Console.WriteLine(<span style="color: red">$"a[<span style="color: #FFD700">{i}</span>] = <span style="color: #FFD700">{a[i]}</span>"</span>);<br>
+}
+		</code>
+		<p>This example creates and operates on a single-dimensional array. C# also supports multi-dimensional arrays. The number of dimensions of an array type, also known as the rank of the array type, is one plus the number of commas between the square brackets of the array type. The following example allocates a single-dimensional, a two-dimensional, and a three-dimensional array, respectively.</p>
+		<code>
+		<span style="color: #FFD700">int</span>[] a1 = <span style="color: #FFD700">new int</span>[10]; <br>
+		<span style="color: #FFD700">int</span>[,] a2 = <span style="color: #FFD700">new int</span>[10,5]; <br>
+		<span style="color: #FFD700">int</span>[,,] a3 = <span style="color: #FFD700">new int</span>[10,5,2]; <br>
+		</code>
+		<p>
+		You should never access elements of an array outside of its bound.
+		</p>
+		</section>
+		
+		<section class="main-section" id="String_Interpolation">
+			<header>String interpolation</header>
+			<p>C# string interpolation enables you to format strings by defining expressions whose results are placed in a format string. For example, the following example prints the temperature on a given day from a set of weather data:</p>
+			<code>
+			Console.WriteLine(<span style="color: red">$"The low and high temperature on <span style="color: #FFD700">{weatherData.Date:MM-DD-YYYY}</span>"</span>); <br>
+            Console.WriteLine(<span style="color: red">$"    was <span style="color: #FFD700">{weatherData.LowTemp}</span> and <span style="color: #FFD700">{weatherData.HighTemp}</span>."</span>); <br>
+			<span style="color: #32CD32">// Output (similar to): <br>
+			// The low and high temperature on 08-11-2020 <br>
+			//     was 5 and 30. </span><br>
+			</code>
+			<p>An interpolated string is declared using the $ token. String interpolation evaluates the expressions between { and }, then converts the result to a string, and replaces the text between the brackets with the string result of the expression. The : in the first expression, {weatherData.Date:MM-DD-YYYY} specifies the format string. In the preceding example, it specifies that the date should be printed in "MM-DD-YYYY" format.</p>
+		</section>
+		
+		<section class="main-section" id="Nullable_Reference_Types">
+			<header>Nullable Reference Types</header>
+			<p>
+			Prior to C# 8.0, all reference types were nullable. Nullable reference types refers to a group of features introduced in C# 8.0 that you can use to minimize the likelihood that your code causes the runtime to throw System.NullReferenceException. Nullable reference types includes three features that help you avoid these exceptions, including the ability to explicitly mark a reference type as nullable:
+			</p>
+			<ul>
+			<li>Improved static flow analysis that determines if a variable may be null before dereferencing it.</li>
+			<li>Attributes that annotate APIs so that the flow analysis determines null-state.</li>
+			<li>Variable annotations that developers use to explicitly declare the intended null-state for a variable.</li>
+			</ul>
+			<p>Null-state analysis and variable annotations are disabled by default for existing projects—meaning that all reference types continue to be nullable. Starting in .NET 6, they're enabled by default for new projects. For information about enabling these features by declaring a nullable annotation context, see Nullable contexts.</p>
+			<p>The rest of this article describes how those three feature areas work to produce warnings when your code may be dereferencing a null value. Dereferencing a variable means to access one of its members using the . (dot) operator, as shown in the following example:</p>
+			<code>
+			<span style="color: #FFD700">string</span> message = <span style="color: red">"Hello, World!"</span>;<br>
+            <span style="color: #FFD700">int</span> length = message.Length; <span style="color: #32CD32">// dereferencing "message"</span> <br>
+			</code>
+			<p>When you dereference a variable whose value is null, the runtime throws a System.NullReferenceException.</p>
+			
+		</section>
+		
+		<section class="main-section" id="Layout_Conventions">
+			<header>Layout Conventions</header>
+			<p>Good layout uses formatting to emphasize the structure of your code and to make the code easier to read. Microsoft examples and samples conform to the following conventions:</p>
+			<ul>
+			<li>Use the default Code Editor settings (smart indenting, four-character indents, tabs saved as spaces). For more information, see Options, Text Editor, C#, Formatting.</li>
+			<li>Write only one statement per line.</li>
+			<li>Write only one declaration per line.</li>
+			<li>If continuation lines are not indented automatically, indent them one tab stop (four spaces).</li>
+			<li>Add at least one blank line between method definitions and property definitions.</li>
+			<li>Use parentheses to make clauses in an expression apparent, as shown in the following code.</li>
+			</ul>
+			<code>
+			<span style="color: #FFD700">if</span> ((val1 > val2) && (val1 > val3))<br>
+            {<br>
+            <span style="color: #32CD32">// Take appropriate action.</span><br>
+            }<br>
+			</code>
+			<p>High quality code. I’m going to break naming conventions up into logical groups. We will start with namespaces, then move to classes and their implementation including fields, properties, events, methods, and member variables within methods.</p>
+			</section>
+			<section id="footer">
+			<p>The information was coppied from <a href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank">Microsoft Build</a></p>
+			<section>
+	</main>
+</body>
+</html>
